@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sportan.nicolas.repositories.SportanRepositorio;
@@ -27,16 +29,32 @@ public class SportanController {
     public SportanController(SportanRepositorio repositorio) {
         this.repositorio = repositorio;
     }
-
-    @GetMapping("/")
+    //metodos http del modelo catalogo
+    @GetMapping("/catalogo")
     public List<Catalogo> ListCatalogos(){
         return repositorio.getCatalogo() ;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/catalogo/{idCat}")
     public Catalogo SpecificCat(@PathVariable(value="idCat") int idCat){
         return repositorio.getCatProd(idCat);
     }
+    //metodos de http del modelo usuarios
+    @GetMapping("/users")
+    public List<Usuarios> ListUsuarios(){
+        return repositorio.getUsuarios();
+    }
+    @GetMapping("/users/{idUsuario}")
+    public Usuarios SpecificUser(@PathVariable(value="idUsuario") int idUsuario){
+        return repositorio.onlyUser(idUsuario);
+    }
+    @PostMapping
+    public Mensaje newUsuario(@RequestBody Usuarios us){
+        boolean a=repositorio.newUser(us);
+        return new Mensaje("usuario registrado");
+    }
+    
+
 
 
 
