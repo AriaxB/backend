@@ -3,9 +3,11 @@ package com.sportan.nicolas.controllers;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -53,10 +55,44 @@ public class SportanController {
         boolean a=repositorio.newUser(us);
         return new Mensaje("usuario registrado");
     }
-    
-
-
-
-
+     @PutMapping("/users/{idUsuario}")
+    public Mensaje updateUsuario(@PathVariable(value="idUsuario") int idUsuario,@RequestBody Usuarios u){
+        boolean a=repositorio.updateUser(u, idUsuario);
+        return new Mensaje("usuario actualizado");
+    }
+    @DeleteMapping ("users/{idUsuario}")
+    public Mensaje deleteUsuario(@PathVariable(value="idUsuario") int idUsuario){
+        boolean a=repositorio.deleteUser(idUsuario);
+        return new Mensaje("usuario eliminado exitosamente");
+    }
+    //metodos http del modelo de productos
+        @GetMapping("/producto")
+    public List<Producto> ListProductos(){
+        return repositorio.getProductos();
+    }
+        @GetMapping("/producto/{idProd}")
+        public Producto SpecificProd(@PathVariable(value="idProd") int idProd){
+            return repositorio.onlyProd(idProd);
+        }
+        @PostMapping("/producto/{idProd}")
+        public Mensaje newProducto(@RequestBody Producto p){
+            boolean a=repositorio.newProducto(p);
+            return new Mensaje("producto agregado exitosamente ");
+        }
+        @PutMapping("/producto/{idProd}")
+            public Mensaje updateProd(@PathVariable(value="idProd") int idProd,@RequestBody Producto p){
+                boolean a=repositorio.updateProd(p, idProd);
+                return new Mensaje("producto actualizado");
+            }
+        @DeleteMapping("/producto/{idProd}")
+            public Mensaje deleteProd(@PathVariable(value="idProd") int idProd){
+                boolean a=repositorio.deleteProd(idProd);
+                return new Mensaje("prodcuto eliminado exitosamente");
+            }
+        //metodos http del modelo de ordenes
+        @GetMapping("/orden")
+        public List<Ordenes> Listordenes(){
+            return repositorio.getorden();
+        }
     }
     
